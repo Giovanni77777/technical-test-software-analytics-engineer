@@ -1,0 +1,39 @@
+name: rdp_symptoms
+version: "1.0.0"
+config-version: 2
+profile: rdp_symptoms
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+seeds:
+  rdp_symptoms:
+    +schema: raw
+    questionnaire_answers:
+      +column_types:
+        answer_id: text
+        occurrence_id: text
+        item_code: text
+        answer_value: text
+        answered_at: timestamp
+        alert_grade: integer
+    questionnaire_occurrences:
+      +column_types:
+        triggered_at: timestamp
+    participants:
+      +column_types:
+        inclusion_date: date
+        end_date: date
+        end_reason: text
+
+models:
+  rdp_symptoms:
+    ods:
+      +materialized: view
+    int:
+      +materialized: view
+    mart:
+      +materialized: table

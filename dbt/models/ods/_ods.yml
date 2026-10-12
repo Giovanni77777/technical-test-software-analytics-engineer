@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: ods_studies
+    description: One row per study.
+    columns:
+      - name: study_code
+        tests: [unique, not_null]
+
+  - name: ods_participants
+    description: One row per participant enrolment. `end_date` is set when follow-up ended (completion or withdrawal).
+    columns:
+      - name: participant_id
+        tests: [unique, not_null]
+
+  - name: ods_symptom_items
+    description: Questionnaire item catalog. One row per item.
+    columns:
+      - name: item_code
+        tests: [unique, not_null]
+
+  - name: ods_questionnaire_occurrences
+    description: One row per questionnaire sent to a participant.
+    columns:
+      - name: occurrence_id
+        tests: [unique, not_null]
+
+  - name: ods_questionnaire_answers
+    description: One row per submitted answer to an item.
+    columns:
+      - name: answer_id
+        tests: [unique, not_null]
