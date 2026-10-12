@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: mart_symptom_answer
+    description: Patient-reported symptom answers, one row per answer.
+    columns:
+      - name: answer_id
+        tests: [unique, not_null]
+      - name: participant_id
+      - name: study_code
+      - name: symptom_code
+      - name: answer_value
+        description: Value reported by the participant.
+      - name: alert_grade
+        description: Grade of the alert raised on this answer (0 = no alert).
+      - name: weeks_from_inclusion
+        description: Weeks since the participant's inclusion.
