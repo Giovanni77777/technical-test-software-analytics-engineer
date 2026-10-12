@@ -7,7 +7,7 @@ Everything runs in Docker: you do **not** need Python, dbt or Postgres installed
 | Git | Clone the repository, commit your work |
 | Docker (Docker Desktop or equivalent) | Postgres, dbt and the API run in containers |
 | `make` | Short commands (`make up`, `make test`…). Optional: every command has a plain `docker compose` equivalent below |
-| A SQL client | Query the database on `localhost:5432` |
+| A SQL client | Query the database on `localhost:5432`. We suggest [pgAdmin](https://www.pgadmin.org/download/); any PostgreSQL client works |
 
 Plan for about 4 GB of free disk space. The first `make check` downloads ~1 GB of images and packages.
 
@@ -25,9 +25,10 @@ brew install git make
 brew install --cask docker
 open -a Docker   # start it once and accept the licence
 
-# SQL client: pick one
-brew install --cask dbeaver-community   # GUI
-brew install libpq && brew link --force libpq   # psql in the terminal
+# SQL client: pgAdmin (suggested; installer also at https://www.pgadmin.org/download/pgadmin-4-macos/)
+brew install --cask pgadmin4
+# alternatives: brew install --cask dbeaver-community (GUI), or psql in the terminal:
+brew install libpq && brew link --force libpq
 ```
 
 ## Windows 10 / 11
@@ -38,7 +39,7 @@ Use **WSL 2** (Ubuntu): Docker Desktop relies on it, and `make` works natively t
 wsl --install -d Ubuntu          # reboot when asked, then open "Ubuntu" once to create a user
 winget install -e --id Docker.DockerDesktop
 winget install -e --id Git.Git
-winget install -e --id dbeaver.dbeaver   # SQL client (GUI)
+winget install -e --id PostgreSQL.pgAdmin   # SQL client (installer also at https://www.pgadmin.org/download/pgadmin-4-windows/)
 ```
 
 Then in Docker Desktop: **Settings → Resources → WSL integration → enable Ubuntu**.
@@ -87,7 +88,8 @@ Open http://localhost:8000/docs: you should see the API.
 
 Schemas: `raw` (data loaded by dbt seeds) and `analytics` (dbt models).
 
-- DBeaver: **New connection → PostgreSQL**, fill the table above, then **Test connection**. DBeaver offers to download the driver on first use: accept.
+- pgAdmin: **Object Explorer → right-click Servers → Register → Server…**. Under *General*, name it `rdp`. Under *Connection*, fill in the table above and tick *Save password*, then **Save**. Open a SQL editor with **Tools → Query Tool**. On Windows, install pgAdmin on Windows itself (not inside WSL): `localhost:5432` reaches the Docker container.
+- DBeaver: **New connection → PostgreSQL**, fill in the table above, then **Test connection**. DBeaver offers to download the driver on first use: accept.
 - psql: `psql postgresql://rdp:rdp@localhost:5432/rdp`
 - No local client at all: `make psql` opens a SQL shell inside the container.
 
