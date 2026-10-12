@@ -45,6 +45,7 @@ You are **not** expected to fix everything, or even to write a lot of code. A cl
 
 - AI tools are allowed and expected. You remain accountable for every line and decision, and should be able to explain them without the AI conversation.
 - External documentation is allowed.
+- We are not available for questions during the hour. If something is unclear, make an assumption, write it down in `NOTES.md` and keep going: we will discuss it in the debrief.
 - Commit your work to a branch and open a pull request on this repository (or, if git gets in the way, just keep your changes locally and share your screen).
 - Stop after one hour. Write down where you stopped.
 

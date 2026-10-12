@@ -12,6 +12,8 @@
 
 ## Where I stopped
 
+## Assumptions and questions for the debrief
+
 ## AI usage
 
 - Tools used and where they helped:
