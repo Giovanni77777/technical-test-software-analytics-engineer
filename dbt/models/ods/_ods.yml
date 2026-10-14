@@ -1,0 +1,103 @@
+version: 2
+
+models:
+  - name: ods_studies
+    description: >
+      Clinical studies followed on the platform. One row per study.
+      Typed copy of the `studies` seed.
+    columns:
+      - name: study_code
+        description: Business key of the study (e.g. `ONC-101`). Used in API paths.
+        tests: [unique, not_null]
+      - name: study_name
+        description: Human-readable study title.
+      - name: start_date
+        description: Date the study opened for inclusions.
+
+  - name: ods_participants
+    description: >
+      Study participants. One row per participant; a participant belongs to exactly one study.
+      Typed copy of the `participants` seed.
+    columns:
+      - name: participant_id
+        description: Pseudonymous participant identifier, prefixed with the study (e.g. `ONC101-001`).
+        tests: [unique, not_null]
+      - name: study_code
+        description: Study the participant is enrolled in. References `ods_studies.study_code`.
+      - name: site_code
+        description: Investigation site that follows the participant.
+      - name: inclusion_date
+        description: Date the participant was included in the study. Follow-up starts on this date.
+      - name: end_date
+        description: >
+          Date follow-up ended, whatever the reason. Empty while the participant is still followed.
+      - name: end_reason
+        description: >
+          Why follow-up ended: `COMPLETED` (planned end of follow-up) or `WITHDRAWN_CONSENT`.
+          Empty while the participant is still followed.
+
+  - name: ods_symptom_items
+    description: >
+      Catalog of questionnaire items. One row per item. A symptom is measured by one or several
+      items, each describing one attribute of the symptom on a given scale.
+    columns:
+      - name: item_code
+        description: Business key of the item (e.g. `GP_SEV`).
+        tests: [unique, not_null]
+      - name: symptom_code
+        description: Symptom the item measures (e.g. `GENERAL_PAIN`). Used in API paths.
+      - name: symptom_label
+        description: Human-readable symptom name.
+      - name: attribute
+        description: >
+          What the item measures about the symptom: `severity`, `frequency`, `interference`
+          or `intensity`.
+      - name: scale_min
+        description: Lowest possible answer value.
+      - name: scale_max
+        description: Highest possible answer value (4 for 0–4 items, 10 for 0–10 items).
+      - name: item_text
+        description: Question as displayed to the patient.
+
+  - name: ods_questionnaire_occurrences
+    description: >
+      Questionnaires sent to participants. One row per questionnaire sent, answered or not.
+    columns:
+      - name: occurrence_id
+        description: Business key of the questionnaire occurrence.
+        tests: [unique, not_null]
+      - name: participant_id
+        description: Participant the questionnaire was sent to. References `ods_participants.participant_id`.
+      - name: questionnaire_version
+        description: >
+          Questionnaire version (`v1` or `v2`). Versions ask different items; see
+          `docs/data_model.md`.
+      - name: trigger_type
+        description: >
+          `SCHEDULED` when sent by the platform on the weekly schedule, `UNSCHEDULED` when opened
+          by the patient on their own initiative.
+      - name: triggered_at
+        description: Timestamp the questionnaire was sent (UTC).
+      - name: status
+        description: "`ANSWERED` or `EXPIRED` (sent but never answered)."
+
+  - name: ods_questionnaire_answers
+    description: >
+      Answers submitted by participants. One row per submitted answer to one item.
+    columns:
+      - name: answer_id
+        description: Technical key of the submitted answer.
+        tests: [unique, not_null]
+      - name: occurrence_id
+        description: Questionnaire the answer belongs to. References `ods_questionnaire_occurrences.occurrence_id`.
+      - name: item_code
+        description: Item answered. References `ods_symptom_items.item_code`.
+      - name: answer_value
+        description: >
+          Value reported by the patient, stored as text. Empty when the patient skipped the item.
+      - name: answered_at
+        description: Timestamp the answer was submitted (UTC).
+      - name: alert_grade
+        description: >
+          Grade of the alert raised by the monitoring rules on this answer (0 = no alert). Set by
+          the platform, not by the patient.

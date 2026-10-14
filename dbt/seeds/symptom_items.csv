@@ -1,0 +1,10 @@
+item_code,symptom_code,symptom_label,attribute,scale_min,scale_max,item_text
+GP_SEV,GENERAL_PAIN,General pain,severity,0,4,What was the severity of your pain at its worst?
+GP_FREQ,GENERAL_PAIN,General pain,frequency,0,4,How often did you have pain?
+GP_INT,GENERAL_PAIN,General pain,interference,0,4,How much did pain interfere with your usual activities?
+GP_NRS,GENERAL_PAIN,General pain,intensity,0,10,Rate your pain from 0 (no pain) to 10 (worst imaginable).
+AP_SEV,ABDOMINAL_PAIN,Abdominal pain,severity,0,4,What was the severity of your belly pain at its worst?
+FAT_SEV,FATIGUE,Fatigue,severity,0,4,What was the severity of your fatigue at its worst?
+FAT_INT,FATIGUE,Fatigue,interference,0,4,How much did fatigue interfere with your usual activities?
+NAU_FREQ,NAUSEA,Nausea,frequency,0,4,How often did you have nausea?
+NAU_SEV,NAUSEA,Nausea,severity,0,4,What was the severity of your nausea at its worst?

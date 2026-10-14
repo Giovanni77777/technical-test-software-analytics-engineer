@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: mart_symptom_answer
+    description: >
+      Patient-reported symptom answers, enriched with the participant's study, the questionnaire
+      and the item catalog. One row per answer. Read by the API to compute symptom indicators.
+    columns:
+      - name: answer_id
+        description: Technical key of the answer.
+        tests: [unique, not_null]
+      - name: occurrence_id
+        description: Questionnaire the answer belongs to.
+      - name: participant_id
+        description: Participant who answered.
+      - name: study_code
+        description: Study of the participant.
+      - name: questionnaire_version
+        description: Version of the questionnaire answered (`v1` or `v2`).
+      - name: trigger_type
+        description: "`SCHEDULED` or `UNSCHEDULED` questionnaire."
+      - name: symptom_code
+        description: Symptom measured by the item (e.g. `GENERAL_PAIN`).
+      - name: symptom_label
+        description: Human-readable symptom name.
+      - name: attribute
+        description: Attribute measured by the item (`severity`, `frequency`, `interference`, `intensity`).
+      - name: scale_max
+        description: Highest possible value of the item's scale.
+      - name: answer_value
+        description: Value reported by the participant, as text. Empty when the item was skipped.
+      - name: alert_grade
+        description: Grade of the alert raised on this answer by the monitoring rules (0 = no alert).
+      - name: answered_at
+        description: Timestamp the answer was submitted (UTC).
+      - name: weeks_from_inclusion
+        description: Weeks since the participant's inclusion.
